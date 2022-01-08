@@ -5,12 +5,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
+    AudioSource audioSource;
     [SerializeField] float launchSpeed = 1000f;
     [SerializeField] float rotateSpeed = 100f;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -24,12 +26,17 @@ public class PlayerController : MonoBehaviour
         //normalizing thrust speed
         float launch = launchSpeed * Time.deltaTime;
 
-        //Engaging thrust y-positive relative to local y-axis
+        //Engaging thrust y-positive relative to local y-axis. adding sound effects to thrust
         if (Input.GetKey(KeyCode.Space))
         {
             rb.AddRelativeForce(Vector3.up * launch);
+            if (!audioSource.isPlaying)
+                audioSource.Play();
         }
-
+        else
+        {
+            audioSource.Stop();
+        }
         //normalizing rotation and speed of rotation according to local z-axis.
         float horizontal = -Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime;
         rb.freezeRotation = true;
