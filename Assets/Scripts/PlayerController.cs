@@ -16,16 +16,21 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlayerControls();
+    }
+
+    private void PlayerControls()
+    {
+        //normalizing thrust speed
         float launch = launchSpeed * Time.deltaTime;
-        if(Input.GetKey(KeyCode.Space))
+
+        //Engaging thrust y-positive relative to local y-axis
+        if (Input.GetKey(KeyCode.Space))
         {
-            rb.AddRelativeForce(0, launch, 0);
+            rb.AddRelativeForce(Vector3.up * launch);
         }
 
-        if(Input.GetKey(KeyCode.W))
-        {
-            rb.AddForce(0, launch, 0);
-        }
+        //normalizing rotation and speed of rotation according to local z-axis.
         float horizontal = -Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime;
         rb.freezeRotation = true;
         transform.Rotate(0, 0, horizontal);
