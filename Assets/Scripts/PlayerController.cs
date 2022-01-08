@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
     AudioSource audioSource;
+    PlayerAttributes playerAttributes;
     [SerializeField] float launchSpeed = 1000f;
     [SerializeField] float rotateSpeed = 100f;
     // Start is called before the first frame update
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
+        playerAttributes = GetComponent<PlayerAttributes>();
     }
 
     // Update is called once per frame
@@ -27,11 +29,12 @@ public class PlayerController : MonoBehaviour
         float launch = launchSpeed * Time.deltaTime;
 
         //Engaging thrust y-positive relative to local y-axis. adding sound effects to thrust
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && playerAttributes.hasFuel())
         {
             rb.AddRelativeForce(Vector3.up * launch);
             if (!audioSource.isPlaying)
                 audioSource.Play();
+            playerAttributes.UsingFuel();
         }
         else
         {
