@@ -1,0 +1,7 @@
+Game Object : Player must navigate to reach the end of the map to a designated area.
+
+player Experience: 
+Precision. Skill.
+
+Core Mechanic:
+Fly ship and avoid obstacles.
