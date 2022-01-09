@@ -132,6 +132,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launchSpeed: 1000
   rotateSpeed: 100
+  audioClips:
+  - {fileID: 8300000, guid: 80243cc601070c3479261deaf688f23a, type: 3}
+  - {fileID: 8300000, guid: 24200a11d0e62be45aa3fda3fd45c1dd, type: 3}
+  - {fileID: 8300000, guid: d5d231fc082923d4e97e260fa96279fd, type: 3}
 --- !u!82 &844424440
 AudioSource:
   m_ObjectHideFlags: 0
@@ -142,7 +146,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d5d231fc082923d4e97e260fa96279fd, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -240,6 +244,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011507e8eda693842870d73cf0114784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneDelay: 2
+  audioClips:
+  - {fileID: 8300000, guid: 24200a11d0e62be45aa3fda3fd45c1dd, type: 3}
+  - {fileID: 8300000, guid: 80243cc601070c3479261deaf688f23a, type: 3}
 --- !u!114 &844424441
 MonoBehaviour:
   m_ObjectHideFlags: 0

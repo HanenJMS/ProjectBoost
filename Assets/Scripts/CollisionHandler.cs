@@ -1,36 +1,79 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    [SerializeField] float sceneDelay = 2f;
+    [SerializeField] AudioClip[] audioClips;
+
+    bool isTransitioning = false;
     // Start is called before the first frame update
     private void OnCollisionEnter(Collision collision)
     {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (isTransitioning) return;
         switch (collision.gameObject.tag)
         {
             case "Friendly":
                 Debug.Log("On Friendly Ground");
                 break;
             case "Finish":
-                Debug.Log($"Congrats! You Won!");
-                SceneManager.LoadScene(++currentSceneIndex);
+                StartNextLevelSequene();
                 break;
             case "Fuel":
                 Debug.Log("Got some fuel.");
                 break;
             default:
-                ReloadScene(currentSceneIndex);
+                StartCrashSequence();
                 break;
-
         }
     }
 
-    private static void ReloadScene(int currentSceneIndex)
+    private void StartNextLevelSequene()
     {
+        isTransitioning = true;
+        //TODO add Confetti
+        foreach (AudioClip clip in audioClips)
+        {
+            if(clip.name == "SFX - Success" && isTransitioning)
+            {
+                this.gameObject.GetComponent<AudioSource>().PlayOneShot(clip);
+            }
+        }
+        Invoke("LoadNextScene", sceneDelay);
+    }
+
+    private void StartCrashSequence()
+    {
+        isTransitioning = true;
+        foreach (AudioClip clip in audioClips)
+        {
+            if (clip.name == "SFX - Death Explosion" && isTransitioning)
+            {
+                this.gameObject.GetComponent<AudioSource>().PlayOneShot(clip);
+            }
+        }
+        //TODO add SFX + Particle effects on Crash
+        this.gameObject.GetComponent<PlayerController>().enabled = false;
+        Invoke("ReloadScene", sceneDelay);
+    }
+
+    void LoadNextScene()
+    {
+        
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        currentSceneIndex++;
+        if (currentSceneIndex == SceneManager.sceneCountInBuildSettings)
+            currentSceneIndex = 0;
+        SceneManager.LoadScene(currentSceneIndex);
+    }
+
+    void ReloadScene()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
     }
 }
