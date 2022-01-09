@@ -8,7 +8,8 @@ using UnityEngine.SceneManagement;
 public class CollisionHandler : MonoBehaviour
 {
     [SerializeField] float sceneDelay = 2f;
-    [SerializeField] AudioClip[] audioClips;
+    [SerializeField] AudioClip crash;
+    [SerializeField] AudioClip success;
 
     bool isTransitioning = false;
     // Start is called before the first frame update
@@ -36,26 +37,15 @@ public class CollisionHandler : MonoBehaviour
     {
         isTransitioning = true;
         //TODO add Confetti
-        foreach (AudioClip clip in audioClips)
-        {
-            if(clip.name == "SFX - Success" && isTransitioning)
-            {
-                this.gameObject.GetComponent<AudioSource>().PlayOneShot(clip);
-            }
-        }
+        this.gameObject.GetComponent<AudioSource>().PlayOneShot(success);
+        this.gameObject.GetComponent<PlayerController>().enabled = false;
         Invoke("LoadNextScene", sceneDelay);
     }
 
     private void StartCrashSequence()
     {
         isTransitioning = true;
-        foreach (AudioClip clip in audioClips)
-        {
-            if (clip.name == "SFX - Death Explosion" && isTransitioning)
-            {
-                this.gameObject.GetComponent<AudioSource>().PlayOneShot(clip);
-            }
-        }
+        this.gameObject.GetComponent<AudioSource>().PlayOneShot(crash);
         //TODO add SFX + Particle effects on Crash
         this.gameObject.GetComponent<PlayerController>().enabled = false;
         Invoke("ReloadScene", sceneDelay);
