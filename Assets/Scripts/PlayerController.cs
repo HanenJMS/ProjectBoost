@@ -33,26 +33,41 @@ public class PlayerController : MonoBehaviour
         //Engaging thrust y-positive relative to local y-axis. adding sound effects to thrust
         if (Input.GetKey(KeyCode.Space) && playerAttributes.hasFuel())
         {
-            rb.AddRelativeForce(Vector3.up * launch);
-            if (!audioSource.isPlaying && !thrusters.isPlaying)
-            {
-                foreach(AudioClip audio in audioClips)
-                {
-                    if(audio.name == "SFX - Main engine thrust")
-                    {
-                        audioSource.PlayOneShot(audio);
-                        thrusters.Play();
-                    }
-                }
-            }
-            playerAttributes.UsingFuel();
+            StartThrusting(launch);
         }
         else
         {
-            audioSource.Stop();
-            thrusters.Stop();
+            StopThrusting();
         }
         //normalizing rotation and speed of rotation according to local z-axis.
+        RotateRocket();
+    }
+
+    
+    private void StartThrusting(float launch)
+    {
+        rb.AddRelativeForce(Vector3.up * launch);
+        if (!audioSource.isPlaying && !thrusters.isPlaying)
+        {
+            foreach (AudioClip audio in audioClips)
+            {
+                if (audio.name == "SFX - Main engine thrust")
+                {
+                    audioSource.PlayOneShot(audio);
+                    thrusters.Play();
+                }
+            }
+        }
+        playerAttributes.UsingFuel();
+    }
+
+    private void StopThrusting()
+    {
+        audioSource.Stop();
+        thrusters.Stop();
+    }
+    private void RotateRocket()
+    {
         float horizontal = -Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime;
         rb.freezeRotation = true;
         transform.Rotate(0, 0, horizontal);

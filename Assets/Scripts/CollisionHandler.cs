@@ -13,10 +13,15 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] ParticleSystem[] particleSystems;
 
     bool isTransitioning = false;
+    bool isDebugging = false;
     // Start is called before the first frame update
+    private void Update()
+    {
+        RespondToDebugKeys();
+    }
     private void OnCollisionEnter(Collision collision)
     {
-        if (isTransitioning) return;
+        if (isTransitioning || isDebugging) return;
         switch (collision.gameObject.tag)
         {
             case "Friendly":
@@ -34,6 +39,17 @@ public class CollisionHandler : MonoBehaviour
         }
     }
 
+    void RespondToDebugKeys()
+    {
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextScene();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            isDebugging = !isDebugging;
+        }
+    }
     private void StartNextLevelSequene()
     {
         isTransitioning = true;
