@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float launchSpeed = 1000f;
     [SerializeField] float rotateSpeed = 100f;
     [SerializeField] AudioClip[] audioClips;
+    [SerializeField] ParticleSystem thrusters;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,13 +34,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && playerAttributes.hasFuel())
         {
             rb.AddRelativeForce(Vector3.up * launch);
-            if (!audioSource.isPlaying)
+            if (!audioSource.isPlaying && !thrusters.isPlaying)
             {
                 foreach(AudioClip audio in audioClips)
                 {
                     if(audio.name == "SFX - Main engine thrust")
                     {
                         audioSource.PlayOneShot(audio);
+                        thrusters.Play();
                     }
                 }
             }
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             audioSource.Stop();
+            thrusters.Stop();
         }
         //normalizing rotation and speed of rotation according to local z-axis.
         float horizontal = -Input.GetAxis("Horizontal") * rotateSpeed * Time.deltaTime;

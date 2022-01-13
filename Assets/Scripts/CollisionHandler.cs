@@ -10,6 +10,7 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] float sceneDelay = 2f;
     [SerializeField] AudioClip crash;
     [SerializeField] AudioClip success;
+    [SerializeField] ParticleSystem[] particleSystems;
 
     bool isTransitioning = false;
     // Start is called before the first frame update
@@ -38,6 +39,14 @@ public class CollisionHandler : MonoBehaviour
         isTransitioning = true;
         //TODO add Confetti
         this.gameObject.GetComponent<AudioSource>().PlayOneShot(success);
+        foreach (ParticleSystem ps in particleSystems)
+        {
+            if (ps.name.Equals("Success Particles"))
+            {
+                ps.Play();
+            }
+
+        }
         this.gameObject.GetComponent<PlayerController>().enabled = false;
         Invoke("LoadNextScene", sceneDelay);
     }
@@ -45,6 +54,14 @@ public class CollisionHandler : MonoBehaviour
     private void StartCrashSequence()
     {
         isTransitioning = true;
+        foreach(ParticleSystem ps in particleSystems)
+        {
+            if (ps.name.Equals("Explosion Particles"))
+            {
+                ps.Play();
+            }
+                
+        }
         this.gameObject.GetComponent<AudioSource>().PlayOneShot(crash);
         //TODO add SFX + Particle effects on Crash
         this.gameObject.GetComponent<PlayerController>().enabled = false;

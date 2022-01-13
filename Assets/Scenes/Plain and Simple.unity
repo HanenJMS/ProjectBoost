@@ -811,13 +811,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 844424435, guid: 317ec63ef30427b47a0b8c9fb856862f, type: 3}
-      propertyPath: crash
-      value: 
-      objectReference: {fileID: 8300000, guid: 24200a11d0e62be45aa3fda3fd45c1dd, type: 3}
+      propertyPath: particleSystems.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 844424435, guid: 317ec63ef30427b47a0b8c9fb856862f, type: 3}
-      propertyPath: success
+      propertyPath: particleSystems.Array.data[2]
       value: 
-      objectReference: {fileID: 8300000, guid: 80243cc601070c3479261deaf688f23a, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4097235558584977688, guid: 317ec63ef30427b47a0b8c9fb856862f, type: 3}
       propertyPath: m_Name
       value: Rocket
